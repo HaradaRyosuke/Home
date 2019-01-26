@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 using Photon.Pun;
 using Photon.Realtime;
+using System.Linq;
 
 
 namespace GGJ2019.Akihabara.Team5
@@ -18,6 +19,7 @@ namespace GGJ2019.Akihabara.Team5
 
         public Vector2 range;
         public Text statusText;
+        public Text scoreText;
 
         public GameObject playerPrefab;
         public GameObject homePrefab;
@@ -58,7 +60,20 @@ namespace GGJ2019.Akihabara.Team5
                     yield return new WaitForSeconds(spawnTime);
                 }
                 yield return new WaitForEndOfFrame();
+
+                UpdateScore();
+
             }
+        }
+
+        public void UpdateScore () {
+            PlayerController2D[] ps = FindObjectsOfType<PlayerController2D>();
+            var query = ps.OrderBy(x => x.age);
+            string text = "";
+            foreach(var (item, index) in query.Select((item, index) => (item, index))) {
+                text += "#" + (index + 1) + " " + item.userName + " " + item.age + "\n";
+            }
+            scoreText.text = text;
         }
 
 
@@ -77,7 +92,12 @@ namespace GGJ2019.Akihabara.Team5
                     Vector2 pos = new Vector2(
                         UnityEngine.Random.Range(-range.x, range.x),
                         UnityEngine.Random.Range(-range.y, range.y));
-                    PhotonNetwork.Instantiate(this.playerPrefab.name, pos, Quaternion.identity, 0);
+
+                    Debug.Log(PhotonNetwork.NickName);
+
+                    GameObject player = PhotonNetwork.Instantiate(this.playerPrefab.name, pos, Quaternion.identity, 0);
+                    player.GetComponent<PhotonView>().RPC("SetName", RpcTarget.All, PhotonNetwork.NickName);
+
                     PhotonNetwork.Instantiate(this.homePrefab.name, pos + Vector2.left * 2, Quaternion.identity, 0);
                 }
                 else

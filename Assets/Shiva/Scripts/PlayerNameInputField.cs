@@ -51,6 +51,7 @@ namespace GGJ2019.Akihabara.Team5
 
 
             PhotonNetwork.NickName = defaultName;
+            SetPlayerName(defaultName);
         }
 
 
