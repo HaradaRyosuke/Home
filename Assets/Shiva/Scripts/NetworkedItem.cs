@@ -17,6 +17,7 @@ namespace GGJ2019.Akihabara.Team5
         {
             //rigidbody2D = GetComponent<Rigidbody2D>();
             instance = Instantiate<GameObject>(prefab, transform.position, transform.rotation);
+            instance.transform.SetParent(transform);
         }
 
 
@@ -44,12 +45,17 @@ namespace GGJ2019.Akihabara.Team5
         }
         #endregion
 
+        private void OnCollideLocal(PlayerController2D player)
+        {
+            instance.SendMessage("OnCollideLocal", player, SendMessageOptions.DontRequireReceiver);
+        }
+
         [PunRPC]
         //private void OnCollide(Player player)
         private void OnCollide()
         {
-            Debug.Log("OnCollide");
-            Destroy(instance);
+            if(instance)
+                instance.SendMessage("OnCollide", SendMessageOptions.DontRequireReceiver);
         }
     }
 

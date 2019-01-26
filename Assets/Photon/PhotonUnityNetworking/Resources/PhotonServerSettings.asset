@@ -33,4 +33,5 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - OnCollide
+  - OnTimeTick
   DisableAutoOpenWizard: 1
