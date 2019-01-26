@@ -24,12 +24,14 @@ namespace GGJ2019.Akihabara.Team5
 
         private Vector3 lastPosition;
 
+        public string userName = "";
+
         private void Awake()
         {
             if (photonView.IsMine)
             {
                 PlayerController2D.LocalPlayerInstance = gameObject;
-                gameObject.name = "Mine";
+                //gameObject.name = "Mine";
                 FindObjectOfType<FollowTarget>().target = transform;
             }
             // #Critical
@@ -51,7 +53,7 @@ namespace GGJ2019.Akihabara.Team5
             lastPosition = transform.position;
             character.gameObject.SendMessage("SetDirection", new Vector2(diff.x, diff.y), SendMessageOptions.DontRequireReceiver);
 
-            pointText.text = "" + point + "," + age;
+            pointText.text = "" + userName +"\n" + point + "," + age;
 
             if (!photonView.IsMine && PhotonNetwork.IsConnected)
             {
@@ -116,6 +118,13 @@ namespace GGJ2019.Akihabara.Team5
         {
             point -= Mathf.Max(0, Mathf.RoundToInt(Mathf.Log(age, 2)));
             age++;
+        }
+
+        [PunRPC]
+        //private void OnCollide(Player player)
+        private void SetName(string name)
+        {
+            this.userName = name;
         }
     }
 }

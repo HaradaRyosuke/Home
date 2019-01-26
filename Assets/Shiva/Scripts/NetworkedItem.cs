@@ -47,7 +47,8 @@ namespace GGJ2019.Akihabara.Team5
 
         private void OnCollideLocal(PlayerController2D player)
         {
-            instance.SendMessage("OnCollideLocal", player, SendMessageOptions.DontRequireReceiver);
+            if(instance)
+                instance.SendMessage("OnCollideLocal", player, SendMessageOptions.DontRequireReceiver);
         }
 
         [PunRPC]
