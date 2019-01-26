@@ -20,6 +20,10 @@ namespace GGJ2019.Akihabara.Team5
 
         private Rigidbody2D rigidbody2D;
 
+        public Transform character;
+
+        private Vector3 lastPosition;
+
         private void Awake()
         {
             if (photonView.IsMine)
@@ -37,11 +41,16 @@ namespace GGJ2019.Akihabara.Team5
         void Start()
         {
             rigidbody2D = GetComponent<Rigidbody2D>();
+            lastPosition = transform.position;
         }
 
         // Update is called once per frame
         void FixedUpdate()
         {
+            Vector3 diff = transform.position - lastPosition;
+            lastPosition = transform.position;
+            character.gameObject.SendMessage("SetDirection", new Vector2(diff.x, diff.y), SendMessageOptions.DontRequireReceiver);
+
             pointText.text = "" + point + "," + age;
 
             if (!photonView.IsMine && PhotonNetwork.IsConnected)
@@ -52,7 +61,8 @@ namespace GGJ2019.Akihabara.Team5
             float x = Input.GetAxis("Horizontal");
             float y = Input.GetAxis("Vertical");
 
-            rigidbody2D.velocity = Vector2.Lerp(rigidbody2D.velocity, (new Vector2(x, y) * speed), 0.5f);
+            Vector2 vec = new Vector2(x, y).normalized;
+            rigidbody2D.velocity = Vector2.Lerp(rigidbody2D.velocity, ( vec * speed), 0.5f);
 
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.5f);
             foreach(Collider2D hit in hits) {
@@ -61,7 +71,6 @@ namespace GGJ2019.Akihabara.Team5
                     if (ni && ni.gameObject.GetComponent<NetworkedItem>()){
                         ni.RPC("OnCollide", RpcTarget.All);
 
-                        Debug.Log(hit.gameObject);
                         hit.gameObject.SendMessage(
                             "OnCollideLocal",
                             this,
