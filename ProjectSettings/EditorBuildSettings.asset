@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Shiva/Scenes/Launcher.unity
+    guid: 8f590923908ea4104ada90aa21e83b6c
+  - enabled: 1
+    path: Assets/Shiva/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Shiva/Scenes/Room.unity
+    guid: 23bef7797b7fc4101bd7d66b081f4148
   m_configObjects: {}
