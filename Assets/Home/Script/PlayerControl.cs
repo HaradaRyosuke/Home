@@ -27,6 +27,10 @@ public class PlayerControl : MonoBehaviour
     [Header("ライフバー")]
     public Transform m_lifeImage;//ライフバーのイメージ
 
+    public GameObject m_model;
+
+
+    private bool m_goHome = false;
     void Start()
     {
         timeElapsed = m_maxTime;//時間の代入
@@ -35,38 +39,79 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
-
-        // 右・左
-        float x = Input.GetAxisRaw("Horizontal");
-
-        // 上・下
-        float y = Input.GetAxisRaw("Vertical");
-
-        // 移動する向きを求める
-        Vector2 direction = new Vector2(x, y).normalized;
-
-        // 移動する向きとスピードを代入する
-        GetComponent<Rigidbody2D>().velocity = direction * speed;
-
-
-
-        timeElapsed -= Time.deltaTime;
-
-        //ライフゲージを減らす
-        float xx = (timeElapsed / m_maxTime) * 1.25f;
-        m_lifeImage.localPosition = new Vector3(xx, 0, 0);
-
-        if (timeElapsed <= timeOut)//残り時間が０になったか
+        if (!m_goHome)
         {
-            // Do anything
-            Debug.Log("時間経過");
-            //timeElapsed = 0.0f;
+            // 右・左
+            float x = Input.GetAxisRaw("Horizontal");
+            // 上・下
+            float y = Input.GetAxisRaw("Vertical");
+
+            if (x == 1)
+            {
+                m_model.transform.eulerAngles = new Vector3(0, 0f, 0);
+            }
+            if (x == -1)
+            {
+                m_model.transform.eulerAngles = new Vector3(0, 0f, 180);
+            }
+            if (y == 1)
+            {
+                m_model.transform.eulerAngles = new Vector3(0, 0f, 90);
+            }
+            if (y == -1)
+            {
+                m_model.transform.eulerAngles = new Vector3(0, 0f, 270);
+            }
+            if (x == 1 && y == 1)
+            {
+                m_model.transform.eulerAngles = new Vector3(0, 0f, 45);
+
+            }
+            if (x == -1 && y == 1)
+            {
+
+                m_model.transform.eulerAngles = new Vector3(0, 0f, 135);
+            }
+            if (x == -1 && y == -1)
+            {
+
+                m_model.transform.eulerAngles = new Vector3(0, 0f, 225);
+            }
+            if (x == 1 && y == -1)
+            {
+
+                m_model.transform.eulerAngles = new Vector3(0, 0f, 315);
+            }
+
+
+            // 移動する向きを求める
+            Vector2 direction = new Vector2(x, y).normalized;
+
+            // 移動する向きとスピードを代入する
+            GetComponent<Rigidbody2D>().velocity = direction * speed;
+
+
+
+            timeElapsed -= Time.deltaTime;
+
+            //ライフゲージを減らす
+            float xx = (timeElapsed / m_maxTime) * 1.25f;
+            m_lifeImage.localPosition = new Vector3(xx, 0, 0);
+
+            if (timeElapsed <= timeOut)//残り時間が０になったか
+            {
+                // Do anything
+                Debug.Log("時間経過");
+                //timeElapsed = 0.0f;
+                m_model.SetActive(false);
+
+            }
         }
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("HITss");
+        //Debug.Log("HITss");
     }
 }
