@@ -1,0 +1,223 @@
+fileFormatVersion: 2
+guid: b7a889ec5ebc649488ba6351f6c58d25
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Cube
+    100002: Cube.001
+    100004: Cylinder
+    100006: Cylinder.001
+    100008: Cylinder.002
+    100010: Cylinder.003
+    100012: Cylinder.004
+    100014: Cylinder.005
+    100016: Cylinder.006
+    100018: //RootNode
+    100020: HUMAN_mergedObject
+    100022: Sphere
+    400000: Cube
+    400002: Cube.001
+    400004: Cylinder
+    400006: Cylinder.001
+    400008: Cylinder.002
+    400010: Cylinder.003
+    400012: Cylinder.004
+    400014: Cylinder.005
+    400016: Cylinder.006
+    400018: //RootNode
+    400020: HUMAN_mergedObject
+    400022: Sphere
+    2100000: zz_TextureAtlas_NO_Material
+    2100002: No Name
+    2300000: Cube
+    2300002: Cube.001
+    2300004: Cylinder
+    2300006: Cylinder.001
+    2300008: Cylinder.002
+    2300010: Cylinder.003
+    2300012: Cylinder.004
+    2300014: Cylinder.005
+    2300016: Cylinder.006
+    2300018: HUMAN_mergedObject
+    2300020: Sphere
+    3300000: Cube
+    3300002: Cube.001
+    3300004: Cylinder
+    3300006: Cylinder.001
+    3300008: Cylinder.002
+    3300010: Cylinder.003
+    3300012: Cylinder.004
+    3300014: Cylinder.005
+    3300016: Cylinder.006
+    3300018: HUMAN_mergedObject
+    3300020: Sphere
+    4300000: HUMAN_mergedObject
+    4300002: Cube.001
+    4300004: Cube
+    4300006: Cylinder.006
+    4300008: Cylinder.005
+    4300010: Cylinder.004
+    4300012: Cylinder.003
+    4300014: Cylinder.002
+    4300016: Cylinder.001
+    4300018: Cylinder
+    4300020: Sphere
+    9500000: //RootNode
+    2186277476908879412: ImportLogs
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: e29caa2f4d261b44c8aa8a0bb8898bf2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: zz_TextureAtlas_NO_Material
+    second: {fileID: 2100000, guid: be94c8064e5ccfc4da42e4bfe11c96d4, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'Hips' not found\n"
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton:
+    - name: human_default(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: HUMAN_mergedObject
+      parentName: human_default(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Cube.001
+      parentName: human_default(Clone)
+      position: {x: 0.4726914, y: -9.277948, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.14445467, y: 0.14647937, z: 0.20298623}
+    - name: Cube
+      parentName: human_default(Clone)
+      position: {x: 3.8840008, y: -1.6541516, z: 0}
+      rotation: {x: 0, y: 0, z: -0.03280621, w: 0.99946177}
+      scale: {x: 0.116624385, y: 0.04700513, z: 0.07620399}
+    - name: Cylinder.006
+      parentName: human_default(Clone)
+      position: {x: 1.9305526, y: -1.5070158, z: 0}
+      rotation: {x: 0, y: 0, z: 0.6901101, w: 0.7237044}
+      scale: {x: 0.99999994, y: 0.99999994, z: 1}
+    - name: Cylinder.005
+      parentName: human_default(Clone)
+      position: {x: 0.47170883, y: -7.6775937, z: 0}
+      rotation: {x: -0.08051272, y: 0, z: -0, w: 0.9967536}
+      scale: {x: 1.280259, y: 1.2802588, z: 1.2802588}
+    - name: Cylinder.004
+      parentName: human_default(Clone)
+      position: {x: 0.32737425, y: -5.282977, z: -0.22022133}
+      rotation: {x: 0.049798366, y: 0, z: -0, w: 0.9987593}
+      scale: {x: 1.3342708, y: 1.3607846, z: 1.3342708}
+    - name: Cylinder.003
+      parentName: human_default(Clone)
+      position: {x: -0, y: -2.3989842, z: -0.10794937}
+      rotation: {x: -0.057747234, y: 0, z: -0, w: 0.99833125}
+      scale: {x: 1.0672156, y: 0.99999994, z: 0.80101055}
+    - name: Cylinder.002
+      parentName: human_default(Clone)
+      position: {x: 1.9305526, y: -1.5070158, z: 0}
+      rotation: {x: 0, y: 0, z: 0.6901101, w: 0.7237044}
+      scale: {x: 0.99999994, y: 0.99999994, z: 1}
+    - name: Cylinder.001
+      parentName: human_default(Clone)
+      position: {x: -0, y: -2.1803083, z: -0.10794937}
+      rotation: {x: -0.057747234, y: 0, z: -0, w: 0.99833125}
+      scale: {x: 1.0672156, y: 0.99999994, z: 0.80101055}
+    - name: Cylinder
+      parentName: human_default(Clone)
+      position: {x: -0, y: -0.88409317, z: -0.08196297}
+      rotation: {x: -0.122386724, y: 0, z: -0, w: 0.9924825}
+      scale: {x: -0.28118178, y: -0.21015662, z: -0.38633707}
+    - name: Sphere
+      parentName: human_default(Clone)
+      position: {x: -0, y: -0.105716236, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.7110824, y: 0.9072228, z: 0.958334}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 3
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
