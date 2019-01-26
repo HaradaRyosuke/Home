@@ -4,6 +4,7 @@ using System.Collections;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 using Photon.Pun;
@@ -15,24 +16,51 @@ namespace GGJ2019.Akihabara.Team5
     public class GameManager : MonoBehaviourPunCallbacks
     {
 
+        public Vector2 range;
+        public Text statusText;
 
-        #region Photon Callbacks
+        public GameObject playerPrefab;
+        public GameObject homePrefab;
+        public GameObject lifeItemPrefab;
 
+        public float spawnTime = 1f;
+        public float tickTime = 1f;
 
-        /// <summary>
-        /// Called when the local player left the room. We need to load the launcher scene.
-        /// </summary>
-        public override void OnLeftRoom()
-        {
-            SceneManager.LoadScene(0);
+        public IEnumerator TimeTickRoutine() {
+
+            statusText.text = "" + PhotonNetwork.IsMasterClient;
+
+            while (true)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    PlayerController2D[] ps = FindObjectsOfType<PlayerController2D>();
+                    foreach(PlayerController2D p in ps) {
+                        p.GetComponent<PhotonView>().RPC("OnTimeTick", RpcTarget.All);
+                    }
+                    yield return new WaitForSeconds(tickTime);
+                }
+                yield return new WaitForEndOfFrame();
+            }
         }
 
-        #endregion
+        public IEnumerator GameMasterRoutine()
+        {
 
-        [Tooltip("The prefab to use for representing the player")]
-        public GameObject playerPrefab;
+            statusText.text = "" + PhotonNetwork.IsMasterClient;
 
-        public Vector2 range;
+            while (true)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    Spawn(lifeItemPrefab);
+
+                    yield return new WaitForSeconds(spawnTime);
+                }
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
 
         private void Start()
         {
@@ -46,7 +74,11 @@ namespace GGJ2019.Akihabara.Team5
                 {
                     Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                    PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+                    Vector2 pos = new Vector2(
+                        UnityEngine.Random.Range(-range.x, range.x),
+                        UnityEngine.Random.Range(-range.y, range.y));
+                    PhotonNetwork.Instantiate(this.playerPrefab.name, pos, Quaternion.identity, 0);
+                    PhotonNetwork.Instantiate(this.homePrefab.name, pos + Vector2.left * 2, Quaternion.identity, 0);
                 }
                 else
                 {
@@ -54,16 +86,18 @@ namespace GGJ2019.Akihabara.Team5
                 }
             }
 
-            #if UNITY_5_4_OR_NEWER
+#if UNITY_5_4_OR_NEWER
             // Unity 5.4 has a new scene management. register a method to call CalledOnLevelWasLoaded.
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += (scene, loadingMode) =>
             {
                 this.CalledOnLevelWasLoaded(scene.buildIndex);
             };
-            #endif
+#endif
+
+            StartCoroutine(GameMasterRoutine());
+            StartCoroutine(TimeTickRoutine());
         }
 
-        #region MonoBehaviour Callbacks
 
         #if !UNITY_5_4_OR_NEWER
         /// <summary>See CalledOnLevelWasLoaded. Outdated in Unity 5.4.</summary>
@@ -76,14 +110,16 @@ namespace GGJ2019.Akihabara.Team5
         void CalledOnLevelWasLoaded(int level)
         {
             // check if we are outside the Arena and if it's the case, spawn around the center of the arena in a safe zone
-            if (!Physics.Raycast(transform.position, -Vector3.up, 5f))
-            {
-                transform.position = new Vector3(0f, 5f, 0f);
-            }
+            //if (!Physics.Raycast(transform.position, -Vector3.up, 5f))
+            //{
+                //transform.position = new Vector2(0f, 5f);
+            //}
         }
-        #endregion
 
-        #region Public Methods
+        public override void OnLeftRoom()
+        {
+            SceneManager.LoadScene(0);
+        }
 
 
         public void LeaveRoom()
@@ -91,27 +127,16 @@ namespace GGJ2019.Akihabara.Team5
             PhotonNetwork.LeaveRoom();
         }
 
-
-        #endregion
-
-        #region Private Methods
-
-
-        void LoadArena()
-        {
-            if (!PhotonNetwork.IsMasterClient)
-            {
-                Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
-                return;
-            }
-            Debug.LogFormat("PhotonNetwork : Loading Level : {0}", PhotonNetwork.CurrentRoom.PlayerCount);
-            PhotonNetwork.LoadLevel("Room");
-        }
-
-
-        #endregion
-
-        #region Photon Callbacks
+        //void LoadArena()
+        //{
+        //    if (!PhotonNetwork.IsMasterClient)
+        //    {
+        //        Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
+        //        return;
+        //    }
+        //    Debug.LogFormat("PhotonNetwork : Loading Level : {0}", PhotonNetwork.CurrentRoom.PlayerCount);
+        //    PhotonNetwork.LoadLevel("Room");
+        //}
 
 
         public override void OnPlayerEnteredRoom(Player other)
@@ -122,7 +147,7 @@ namespace GGJ2019.Akihabara.Team5
             if (PhotonNetwork.IsMasterClient)
             {
                 Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
-                LoadArena();
+                //LoadArena();
             }
         }
 
@@ -134,17 +159,17 @@ namespace GGJ2019.Akihabara.Team5
             if (PhotonNetwork.IsMasterClient)
             {
                 Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
-                LoadArena();
+                //LoadArena();
             }
         }
 
-        #endregion
-
         public void Spawn(GameObject prefab) {
-            PhotonNetwork.Instantiate(prefab.gameObject.name, 
-                                      new Vector2(UnityEngine.Random.Range(-range.x, range.x), 
-                                                  UnityEngine.Random.Range(-range.y, range.y)), 
-                                      Quaternion.identity, 0);
+
+            PhotonNetwork.InstantiateSceneObject(
+                prefab.gameObject.name, 
+                new Vector2(UnityEngine.Random.Range(-range.x, range.x), 
+                            UnityEngine.Random.Range(-range.y, range.y)), 
+                Quaternion.identity, 0);
         }
 
 

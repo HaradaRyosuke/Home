@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using Photon.Pun;
 using Photon.Realtime;
@@ -8,10 +9,14 @@ namespace GGJ2019.Akihabara.Team5
     public class PlayerController2D : MonoBehaviourPunCallbacks, IPunObservable
     {
 
-        [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject LocalPlayerInstance;
 
         public float speed = 10.0f;
+
+        public int point = 0;
+        public int age = 0;
+
+        public Text pointText;
 
         private Rigidbody2D rigidbody2D;
 
@@ -19,8 +24,9 @@ namespace GGJ2019.Akihabara.Team5
         {
             if (photonView.IsMine)
             {
-                PlayerController2D.LocalPlayerInstance = this.gameObject;
-                gameObject.name = "Mine";   
+                PlayerController2D.LocalPlayerInstance = gameObject;
+                gameObject.name = "Mine";
+                FindObjectOfType<FollowTarget>().target = transform;
             }
             // #Critical
             // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
@@ -36,6 +42,8 @@ namespace GGJ2019.Akihabara.Team5
         // Update is called once per frame
         void FixedUpdate()
         {
+            pointText.text = "" + point + "," + age;
+
             if (!photonView.IsMine && PhotonNetwork.IsConnected)
             {
                 return;
@@ -49,10 +57,15 @@ namespace GGJ2019.Akihabara.Team5
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.5f);
             foreach(Collider2D hit in hits) {
                 if (hit.gameObject != gameObject) {
-                    Debug.Log(hit.gameObject);
                     PhotonView ni = hit.gameObject.GetComponent<PhotonView>();
                     if (ni && ni.gameObject.GetComponent<NetworkedItem>()){
                         ni.RPC("OnCollide", RpcTarget.All);
+
+                        Debug.Log(hit.gameObject);
+                        hit.gameObject.SendMessage(
+                            "OnCollideLocal",
+                            this,
+                            SendMessageOptions.DontRequireReceiver);
                     }
                 }
             }
@@ -68,7 +81,6 @@ namespace GGJ2019.Akihabara.Team5
             {
                 Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
 
-
                 //LoadArena();
             }
         }
@@ -79,16 +91,22 @@ namespace GGJ2019.Akihabara.Team5
             if (stream.IsWriting)
             {
                 // We own this player: send the others our data
-                Debug.Log("sending");
-                stream.SendNext(true);
+                stream.SendNext(point);
             }
             else
             {
                 // Network player, receive data
-                bool b = (bool)stream.ReceiveNext();
-                Debug.Log(b);
+                point = (int)stream.ReceiveNext();
             }
         }
         #endregion
+
+        [PunRPC]
+        //private void OnCollide(Player player)
+        private void OnTimeTick()
+        {
+            point -= Mathf.Max(0, Mathf.RoundToInt(Mathf.Log(age, 2)));
+            age++;
+        }
     }
 }
