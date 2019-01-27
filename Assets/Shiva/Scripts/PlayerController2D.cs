@@ -13,8 +13,9 @@ namespace GGJ2019.Akihabara.Team5
 
         public float speed = 10.0f;
 
-        public int point = 0;
+        public int point = 100;
         public int age = 0;
+        public int realAge;
 
         public Text pointText;
 
@@ -23,8 +24,17 @@ namespace GGJ2019.Akihabara.Team5
         public Transform character;
 
         private Vector3 lastPosition;
+        private Vector3 dir = Vector3.right;
 
         public string userName = "";
+
+        public Rigidbody bullet;
+        public float bulletSpeed;
+
+        private bool isDead;
+        private bool isDeadSequence;
+
+        public DeadSequence deadSequencePrefab;
 
         private void Awake()
         {
@@ -42,6 +52,7 @@ namespace GGJ2019.Akihabara.Team5
         // Start is called before the first frame update
         void Start()
         {
+            isDead = false;
             rigidbody2D = GetComponent<Rigidbody2D>();
             lastPosition = transform.position;
         }
@@ -49,8 +60,23 @@ namespace GGJ2019.Akihabara.Team5
         // Update is called once per frame
         void FixedUpdate()
         {
+            if(isDead) {
+                if(!isDeadSequence){
+
+                    DeadSequence go = Instantiate(deadSequencePrefab, Vector3.zero, Quaternion.identity);
+                    go.userName = userName;
+                    go.age = "" + realAge;
+                    go.Run();
+                    isDeadSequence = true;
+                }
+                return;
+            }
             Vector3 diff = transform.position - lastPosition;
             lastPosition = transform.position;
+            diff = diff.normalized;
+            if(diff.magnitude > 0){
+                dir = diff;
+            }
             character.gameObject.SendMessage("SetDirection", new Vector2(diff.x, diff.y), SendMessageOptions.DontRequireReceiver);
 
             pointText.text = "" + userName +"\n" + point + "," + age;
@@ -80,6 +106,11 @@ namespace GGJ2019.Akihabara.Team5
                     }
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                GetComponent<PhotonView>().RPC("SetAttack", RpcTarget.All, dir);
+            }
+
 
         }
 
@@ -118,6 +149,11 @@ namespace GGJ2019.Akihabara.Team5
         {
             point -= Mathf.Max(0, Mathf.RoundToInt(Mathf.Log(age, 2)));
             age++;
+            realAge++;
+
+            if (point <= 0) {
+                isDead = true;
+            }
         }
 
         [PunRPC]
@@ -125,6 +161,26 @@ namespace GGJ2019.Akihabara.Team5
         private void SetName(string name)
         {
             this.userName = name;
+        }
+
+        [PunRPC]
+        private void SetAttack(Vector3 dir)
+        {
+            character.SendMessage("Attack", SendMessageOptions.DontRequireReceiver);
+
+            Rigidbody b = Instantiate<Rigidbody>(bullet, transform.position, Quaternion.identity);
+            b.GetComponent<Bullet>().my = this;
+            b.AddRelativeForce(dir * bulletSpeed);
+            Destroy(b.gameObject, 2f);
+        }
+
+        [PunRPC]
+        private void BulletHit(Vector3 pos)
+        {
+            if(GetComponent<PhotonView>().IsMine) {
+                isDead = true;
+            }
+            character.SendMessage("Dead");
         }
     }
 }

@@ -35,4 +35,6 @@ MonoBehaviour:
   - OnCollide
   - OnTimeTick
   - SetName
+  - SetAttack
+  - BulletHit
   DisableAutoOpenWizard: 1
