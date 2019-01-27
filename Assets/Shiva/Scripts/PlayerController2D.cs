@@ -39,6 +39,8 @@ namespace GGJ2019.Akihabara.Team5
 
         public LifeBar lifeBar;
 
+        public float burnRate = 1.25f;
+
         private void Awake()
         {
             if (photonView.IsMine)
@@ -170,8 +172,8 @@ namespace GGJ2019.Akihabara.Team5
                 manager.SpawnHome();
             }
 
-            //point -= Mathf.Max(0, Mathf.RoundToInt(Mathf.Log(age, 2)));
-            point -= age;
+            point -= Mathf.Max(0, Mathf.RoundToInt(Mathf.Log(age, burnRate)));
+            //point -= age;
             age++;
             realAge++;
 
