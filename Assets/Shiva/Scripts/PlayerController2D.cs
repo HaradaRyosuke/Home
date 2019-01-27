@@ -35,6 +35,7 @@ namespace GGJ2019.Akihabara.Team5
         private bool isDeadSequence;
 
         public DeadSequence deadSequencePrefab;
+        private GameManager manager;
 
         private void Awake()
         {
@@ -55,6 +56,7 @@ namespace GGJ2019.Akihabara.Team5
             isDead = false;
             rigidbody2D = GetComponent<Rigidbody2D>();
             lastPosition = transform.position;
+            manager = FindObjectOfType<GameManager>();
         }
 
         // Update is called once per frame
@@ -92,6 +94,12 @@ namespace GGJ2019.Akihabara.Team5
 
             Vector2 vec = new Vector2(x, y).normalized;
             rigidbody2D.velocity = Vector2.Lerp(rigidbody2D.velocity, ( vec * speed), 0.5f);
+
+            transform.position = new Vector3(
+                Mathf.Clamp(transform.position.x, -manager.range.x, manager.range.x),
+                Mathf.Clamp(transform.position.y, -manager.range.y, manager.range.y),
+                0
+            );
 
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.5f);
             foreach(Collider2D hit in hits) {
