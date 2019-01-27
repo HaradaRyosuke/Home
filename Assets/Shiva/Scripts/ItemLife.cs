@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace GGJ2019.Akihabara.Team5
 {
@@ -24,7 +26,7 @@ namespace GGJ2019.Akihabara.Team5
         void Update()
         {
             if (Time.time > dyingTime) {
-                Destroy(transform.parent.gameObject);
+                PhotonNetwork.Destroy(transform.parent.gameObject);
             }
         }
 
@@ -35,8 +37,7 @@ namespace GGJ2019.Akihabara.Team5
 
         public void OnCollide()
         {
-            Instantiate(m_particalObj, transform.parent.localPosition, Quaternion.identity);
-            Destroy(transform.parent.gameObject);
+            PhotonNetwork.Destroy(transform.parent.gameObject);
         }
     }
 }

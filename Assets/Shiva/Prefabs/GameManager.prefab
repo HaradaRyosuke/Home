@@ -46,8 +46,8 @@ MonoBehaviour:
   range: {x: 20, y: 20}
   statusText: {fileID: 0}
   scoreText: {fileID: 0}
-  playerPrefab: {fileID: 125, guid: ba29806fa615845b0af6f4d788051080, type: 3}
-  homePrefab: {fileID: 127, guid: 737db1a7687724361a35cd15331a4b1f, type: 3}
-  lifeItemPrefab: {fileID: 126, guid: 70c3fb522802c41e191439b50ed2ba2b, type: 3}
+  playerPrefab: {fileID: 221, guid: ba29806fa615845b0af6f4d788051080, type: 3}
+  homePrefab: {fileID: 223, guid: 737db1a7687724361a35cd15331a4b1f, type: 3}
+  lifeItemPrefab: {fileID: 222, guid: 70c3fb522802c41e191439b50ed2ba2b, type: 3}
   spawnTime: 0.2
   tickTime: 1
