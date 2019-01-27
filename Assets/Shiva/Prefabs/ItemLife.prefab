@@ -47,6 +47,7 @@ MonoBehaviour:
   point: 5
   timeToDie: 10
   m_particalObj: {fileID: 920479158, guid: 864e8a82b2c5dab428cb6f1688fa9764, type: 3}
+  clip: {fileID: 8300000, guid: b470a5737ac034ca1bd5ff2786accbc7, type: 3}
 --- !u!1 &7582168229402906646
 GameObject:
   m_ObjectHideFlags: 0

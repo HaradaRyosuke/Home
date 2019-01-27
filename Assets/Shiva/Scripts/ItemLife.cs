@@ -12,6 +12,7 @@ namespace GGJ2019.Akihabara.Team5
         public int point = 5;
         public int timeToDie = 10;
         public GameObject m_particalObj;
+        public AudioClip clip;
 
 
         private float dyingTime = 0;
@@ -26,19 +27,31 @@ namespace GGJ2019.Akihabara.Team5
         void Update()
         {
             if (Time.time > dyingTime) {
-                PhotonNetwork.Destroy(transform.parent.gameObject);
+                if (transform.parent.GetComponent<PhotonView>().IsMine)
+                {
+                    PhotonNetwork.Destroy(transform.parent.gameObject);
+                }
             }
         }
 
         public void OnCollideLocal(PlayerController2D p)
         {
+            GameObject go = new GameObject();
+            go.transform.position = transform.position;
+            AudioSource a = go.AddComponent<AudioSource>();
+            a.PlayOneShot(clip, 0.2f);
+            Destroy(go, 5f);
+
             p.point += point;
         }
 
         public void OnCollide()
         {
             Instantiate(m_particalObj, transform.parent.localPosition, Quaternion.identity);
-            PhotonNetwork.Destroy(transform.parent.gameObject);
+            if (transform.parent.GetComponent<PhotonView>().IsMine)
+            {
+                PhotonNetwork.Destroy(transform.parent.gameObject);
+            }
         }
     }
 }
