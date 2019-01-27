@@ -70,7 +70,7 @@ namespace GGJ2019.Akihabara.Team5
 
         public void UpdateScore () {
             PlayerController2D[] ps = FindObjectsOfType<PlayerController2D>();
-            var query = ps.OrderBy(x => x.age);
+            var query = ps.OrderByDescending(x => x.realAge);
             string text = "";
             foreach(var (item, index) in query.Select((item, index) => (item, index))) {
                 if (item.GetComponent<PhotonView>().IsMine){

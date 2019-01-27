@@ -27,7 +27,10 @@ namespace GGJ2019.Akihabara.Team5
         void Update()
         {
             if (Time.time > dyingTime) {
-                PhotonNetwork.Destroy(transform.parent.gameObject);
+                if (transform.parent.GetComponent<PhotonView>().IsMine)
+                {
+                    PhotonNetwork.Destroy(transform.parent.gameObject);
+                }
             }
         }
 
@@ -45,7 +48,10 @@ namespace GGJ2019.Akihabara.Team5
         public void OnCollide()
         {
             Instantiate(m_particalObj, transform.parent.localPosition, Quaternion.identity);
-            PhotonNetwork.Destroy(transform.parent.gameObject);
+            if (transform.parent.GetComponent<PhotonView>().IsMine)
+            {
+                PhotonNetwork.Destroy(transform.parent.gameObject);
+            }
         }
     }
 }
