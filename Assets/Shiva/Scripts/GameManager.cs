@@ -147,18 +147,6 @@ namespace GGJ2019.Akihabara.Team5
             PhotonNetwork.LeaveRoom();
         }
 
-        //void LoadArena()
-        //{
-        //    if (!PhotonNetwork.IsMasterClient)
-        //    {
-        //        Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
-        //        return;
-        //    }
-        //    Debug.LogFormat("PhotonNetwork : Loading Level : {0}", PhotonNetwork.CurrentRoom.PlayerCount);
-        //    PhotonNetwork.LoadLevel("Room");
-        //}
-
-
         public override void OnPlayerEnteredRoom(Player other)
         {
             Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
