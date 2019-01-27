@@ -11,6 +11,8 @@ namespace GGJ2019.Akihabara.Team5
     {
         public int point = 5;
         public int timeToDie = 10;
+        public GameObject m_particalObj;
+
 
         private float dyingTime = 0;
         // Start is called before the first frame update
@@ -35,7 +37,6 @@ namespace GGJ2019.Akihabara.Team5
 
         public void OnCollide()
         {
-
             PhotonNetwork.Destroy(transform.parent.gameObject);
         }
     }

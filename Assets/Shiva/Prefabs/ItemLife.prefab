@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdcb9e3136b9f4ed0a9cfb4c689a10b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  point: 5
+  timeToDie: 10
+  m_particalObj: {fileID: 920479158, guid: 864e8a82b2c5dab428cb6f1688fa9764, type: 3}
 --- !u!1 &7582168229402906646
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,7 +115,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 56bbc6b42271d4177ac313247f47ac1f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bd91c752f88b39140acec267c244b222, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
