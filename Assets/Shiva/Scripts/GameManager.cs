@@ -28,6 +28,8 @@ namespace GGJ2019.Akihabara.Team5
         public float spawnTime = 1f;
         public float tickTime = 1f;
 
+        private Vector3 homePosition;
+
         public IEnumerator TimeTickRoutine() {
 
             statusText.text = "" + PhotonNetwork.IsMasterClient;
@@ -71,7 +73,12 @@ namespace GGJ2019.Akihabara.Team5
             var query = ps.OrderBy(x => x.age);
             string text = "";
             foreach(var (item, index) in query.Select((item, index) => (item, index))) {
-                text += "#" + (index + 1) + " " + item.userName + " " + item.age + "\n";
+                if (item.GetComponent<PhotonView>().IsMine){
+                    text += "<b>#" + (index + 1) + " " + item.userName + " " + item.realAge + "</b>\n";
+                }else {
+                    text += "#" + (index + 1) + " " + item.userName + " " + item.realAge + "\n";
+                }
+
             }
             scoreText.text = text;
         }
@@ -98,7 +105,7 @@ namespace GGJ2019.Akihabara.Team5
                     GameObject player = PhotonNetwork.Instantiate(this.playerPrefab.name, pos, Quaternion.identity, 0);
                     player.GetComponent<PhotonView>().RPC("SetName", RpcTarget.All, PhotonNetwork.NickName);
 
-                    PhotonNetwork.Instantiate(this.homePrefab.name, pos + Vector2.left * 2, Quaternion.identity, 0);
+                    homePosition = pos + Vector2.left * 5;
                 }
                 else
                 {
@@ -178,6 +185,10 @@ namespace GGJ2019.Akihabara.Team5
                 new Vector2(UnityEngine.Random.Range(-range.x, range.x), 
                             UnityEngine.Random.Range(-range.y, range.y)), 
                 Quaternion.identity, 0);
+        }
+
+        public void SpawnHome (){
+            PhotonNetwork.Instantiate(this.homePrefab.name, homePosition, Quaternion.identity, 0);
         }
 
 

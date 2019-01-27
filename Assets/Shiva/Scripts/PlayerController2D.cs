@@ -15,7 +15,7 @@ namespace GGJ2019.Akihabara.Team5
 
         public int point = 100;
         public int age = 0;
-        public int realAge;
+        public int realAge = 0;
 
         public Text pointText;
 
@@ -36,6 +36,8 @@ namespace GGJ2019.Akihabara.Team5
 
         public DeadSequence deadSequencePrefab;
         private GameManager manager;
+
+        public LifeBar lifeBar;
 
         private void Awake()
         {
@@ -82,7 +84,7 @@ namespace GGJ2019.Akihabara.Team5
             }
             character.gameObject.SendMessage("SetDirection", new Vector2(diff.x, diff.y), SendMessageOptions.DontRequireReceiver);
 
-            pointText.text = "" + userName +"\n" + point + "," + age;
+            pointText.text = "" + userName + "," + age;
 
             if (!photonView.IsMine && PhotonNetwork.IsConnected)
             {
@@ -96,8 +98,8 @@ namespace GGJ2019.Akihabara.Team5
             rigidbody2D.velocity = Vector2.Lerp(rigidbody2D.velocity, ( vec * speed), 0.5f);
 
             transform.position = new Vector3(
-                Mathf.Clamp(transform.position.x, -manager.range.x, manager.range.x),
-                Mathf.Clamp(transform.position.y, -manager.range.y, manager.range.y),
+                Mathf.Clamp(transform.position.x, -manager.range.x-5, manager.range.x+5),
+                Mathf.Clamp(transform.position.y, -manager.range.y-5, manager.range.y+5),
                 0
             );
 
@@ -155,7 +157,18 @@ namespace GGJ2019.Akihabara.Team5
         //private void OnCollide(Player player)
         private void OnTimeTick()
         {
+
+            if (realAge % 50 == 0)
+            {
+                if (!manager)
+                {
+                    manager = FindObjectOfType<GameManager>();
+                }
+                manager.SpawnHome();
+            }
+
             point -= Mathf.Max(0, Mathf.RoundToInt(Mathf.Log(age, 2)));
+            lifeBar.SetLife(point);
             age++;
             realAge++;
 
