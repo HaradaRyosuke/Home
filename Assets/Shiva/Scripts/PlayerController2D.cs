@@ -65,8 +65,10 @@ namespace GGJ2019.Akihabara.Team5
         void FixedUpdate()
         {
             lifeBar.SetLife(point);
-            if (isDead) {
+            if (point <= 0) {
                 if(!isDeadSequence){
+
+                    character.SendMessage("Dead");
 
                     DeadSequence go = Instantiate(deadSequencePrefab, Vector3.zero, Quaternion.identity);
                     go.userName = userName;
@@ -127,15 +129,15 @@ namespace GGJ2019.Akihabara.Team5
 
         public override void OnPlayerEnteredRoom(Player other)
         {
-            Debug.LogFormat("OnPlayerEnteredRoom() {0}"); // not seen if you're the player connecting
+            //Debug.LogFormat("OnPlayerEnteredRoom() {0}"); // not seen if you're the player connecting
 
 
-            if (PhotonNetwork.IsMasterClient)
-            {
-                Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
+            //if (PhotonNetwork.IsMasterClient)
+            //{
+            //    Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
 
                 //LoadArena();
-            }
+            //}
         }
 
         #region IPunObservable implementation
@@ -168,13 +170,11 @@ namespace GGJ2019.Akihabara.Team5
                 manager.SpawnHome();
             }
 
-            point -= Mathf.Max(0, Mathf.RoundToInt(Mathf.Log(age, 2)));
+            //point -= Mathf.Max(0, Mathf.RoundToInt(Mathf.Log(age, 2)));
+            point -= age;
             age++;
             realAge++;
 
-            if (point <= 0) {
-                isDead = true;
-            }
         }
 
         [PunRPC]
@@ -199,9 +199,8 @@ namespace GGJ2019.Akihabara.Team5
         private void BulletHit(Vector3 pos)
         {
             if(GetComponent<PhotonView>().IsMine) {
-                isDead = true;
+                point = 0;
             }
-            character.SendMessage("Dead");
         }
     }
 }
