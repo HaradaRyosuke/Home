@@ -67,7 +67,7 @@ namespace GGJ2019.Akihabara.Team5
             Highscore.LoadHighScore();
 
             if(Highscore.highscore > 0){
-                highscore.text = "Highscore: " + Highscore.name + ", " + Highscore.highscore;
+                highscore.text = "" + Highscore.name + ", " + Highscore.highscore;
             }else {
                 highscore.text = "";
             }
