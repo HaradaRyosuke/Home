@@ -12,6 +12,7 @@ namespace GGJ2019.Akihabara.Team5
         public int point = 5;
         public int timeToDie = 10;
         public GameObject m_particalObj;
+        public AudioClip clip;
 
 
         private float dyingTime = 0;
@@ -32,6 +33,12 @@ namespace GGJ2019.Akihabara.Team5
 
         public void OnCollideLocal(PlayerController2D p)
         {
+            GameObject go = new GameObject();
+            go.transform.position = transform.position;
+            AudioSource a = go.AddComponent<AudioSource>();
+            a.PlayOneShot(clip, 0.2f);
+            Destroy(go, 5f);
+
             p.point += point;
         }
 
