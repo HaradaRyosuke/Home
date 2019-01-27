@@ -35,6 +35,7 @@ namespace GGJ2019.Akihabara.Team5
 
             p.age -= 50;
             p.age = Mathf.Max(0, p.age);
+
         }
 
         public void OnCollide()

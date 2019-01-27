@@ -38,7 +38,7 @@ namespace GGJ2019.Akihabara.Team5
         void Start()
         {
 
-            string defaultName = string.Empty;
+            string defaultName = "Player";
             InputField _inputField = this.GetComponent<InputField>();
             if (_inputField != null)
             {
