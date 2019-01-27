@@ -68,7 +68,11 @@ namespace GGJ2019.Akihabara.Team5
         {
             lifeBar.SetLife(point);
             if (point <= 0) {
+                if (!gameObject.GetComponent<PhotonView>().IsMine){
+                    return;
+                }
                 if(!isDeadSequence){
+                    rigidbody2D.velocity = Vector2.zero;
 
                     character.SendMessage("Dead");
 
