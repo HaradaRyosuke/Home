@@ -37,6 +37,7 @@ namespace GGJ2019.Akihabara.Team5
 
         public void OnCollide()
         {
+            Instantiate(m_particalObj, transform.parent.localPosition, Quaternion.identity);
             PhotonNetwork.Destroy(transform.parent.gameObject);
         }
     }
