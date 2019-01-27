@@ -119,7 +119,7 @@ MonoBehaviour:
   deadSequencePrefab: {fileID: 4261946373797850324, guid: b1d7dffdc76f94c7aaaa5110641f7674,
     type: 3}
   lifeBar: {fileID: 755}
-  burnRate: 1.25
+  burnRate: 2
 --- !u!50 &672
 Rigidbody2D:
   serializedVersion: 4

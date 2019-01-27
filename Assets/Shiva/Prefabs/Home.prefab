@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f201ee15a3345cca31c732fcfc6ab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  age: 50
+  m_particalObj: {fileID: 179165716, guid: 66fa30b6f1b7cd94fb7f44534b80db55, type: 3}
+  clip: {fileID: 0}
 --- !u!1 &7582168229402906646
 GameObject:
   m_ObjectHideFlags: 0
