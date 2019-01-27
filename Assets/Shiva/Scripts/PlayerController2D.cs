@@ -64,7 +64,8 @@ namespace GGJ2019.Akihabara.Team5
         // Update is called once per frame
         void FixedUpdate()
         {
-            if(isDead) {
+            lifeBar.SetLife(point);
+            if (isDead) {
                 if(!isDeadSequence){
 
                     DeadSequence go = Instantiate(deadSequencePrefab, Vector3.zero, Quaternion.identity);
@@ -168,7 +169,6 @@ namespace GGJ2019.Akihabara.Team5
             }
 
             point -= Mathf.Max(0, Mathf.RoundToInt(Mathf.Log(age, 2)));
-            lifeBar.SetLife(point);
             age++;
             realAge++;
 

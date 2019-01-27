@@ -43,6 +43,7 @@ namespace GGJ2019.Akihabara.Team5
             Destroy(go, 5f);
 
             p.point += point;
+            p.point = Mathf.Min(p.point, 100);
         }
 
         public void OnCollide()
