@@ -68,6 +68,7 @@ namespace GGJ2019.Akihabara.Team5
                     go.age = "" + realAge;
                     go.Run();
                     isDeadSequence = true;
+                    Highscore.SaveHighScore(userName, realAge);
                 }
                 return;
             }
@@ -97,12 +98,11 @@ namespace GGJ2019.Akihabara.Team5
                 if (hit.gameObject != gameObject) {
                     PhotonView ni = hit.gameObject.GetComponent<PhotonView>();
                     if (ni && ni.gameObject.GetComponent<NetworkedItem>()){
-                        ni.RPC("OnCollide", RpcTarget.All);
-
                         hit.gameObject.SendMessage(
                             "OnCollideLocal",
                             this,
                             SendMessageOptions.DontRequireReceiver);
+                        ni.RPC("OnCollide", RpcTarget.All);
                     }
                 }
             }

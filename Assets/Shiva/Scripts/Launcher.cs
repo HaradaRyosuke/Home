@@ -2,6 +2,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 
+using UnityEngine.UI;
 
 namespace GGJ2019.Akihabara.Team5
 {
@@ -32,9 +33,12 @@ namespace GGJ2019.Akihabara.Team5
         [Tooltip("The Ui Panel to let the user enter name, connect and play")]
         [SerializeField]
         private GameObject controlPanel;
+
         [Tooltip("The UI Label to inform the user that the connection is in progress")]
         [SerializeField]
         private GameObject progressLabel;
+
+        public Text highscore;
         #endregion
 
 
@@ -60,8 +64,16 @@ namespace GGJ2019.Akihabara.Team5
             progressLabel.SetActive(false);
             controlPanel.SetActive(true);
             //Connect();
+            Highscore.LoadHighScore();
+
+            if(Highscore.highscore > 0){
+                highscore.text = "Highscore: " + Highscore.name + ", " + Highscore.highscore;
+            }else {
+                highscore.text = "";
+            }
         }
 
+       
         #endregion
 
         #region MonoBehaviourPunCallbacks Callbacks
